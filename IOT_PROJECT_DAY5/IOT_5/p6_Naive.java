@@ -2,15 +2,15 @@ package IOT_5;
 // Naive PROGRAM EXAMPLE
 public class p6_Naive {
 	public static void main(String[] args) {
-		String text = "Rakesh Hate Non-Veg Food";
-		String pattern = "@SNPSU";
+		String text = "I Love Java Programming";
+		String pattern = "Java";
 		int position = search(text,pattern);
 		if(position !=-1) {
-			System.out.println("PAttern Found At Index:"+ position);
+			System.out.println("Pattern Found At Index:"+ position);
 		}
 		else
 		{
-			System.out.println("PAttern  Not Found:");
+			System.out.println("Pattern  Not Found:");
 		}
 		}
 		static int search(String text, String pattern) {
