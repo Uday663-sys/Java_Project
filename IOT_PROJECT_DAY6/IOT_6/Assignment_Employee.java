@@ -1,19 +1,19 @@
 package IOT_6;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class Assignment_Employee {
 
     private String name;
     private int age;
     private String designation;
     private double salary;
-    private boolean accountCreated = false;
 
-    private final Scanner sc = new Scanner(System.in);
+    private final Scanner sc;
 
-   
-    private ArrayList<String> account = new ArrayList<>();
+    
+    Assignment_Employee(Scanner sc) {
+        this.sc = sc;
+    }
 
     
     void createAccount() {
@@ -27,6 +27,7 @@ public class Assignment_Employee {
             System.out.print("Enter your age (19-59): ");
 
             if (sc.hasNextInt()) {
+
                 age = sc.nextInt();
                 sc.nextLine();
 
@@ -34,8 +35,9 @@ public class Assignment_Employee {
                     break;
 
                 System.out.println("Age must be between 19 and 59.");
-            } 
-            else {
+
+            } else {
+
                 System.out.println("Invalid age.");
                 sc.nextLine();
             }
@@ -44,58 +46,48 @@ public class Assignment_Employee {
         
         while (true) {
 
-            System.out.print("Enter designation (Programmer / Manager / Tester): ");
+            System.out.print(
+                "Enter designation (Programmer / Manager / Tester): "
+            );
+
             designation = sc.nextLine().trim();
 
             if (designation.equalsIgnoreCase("Programmer")) {
-                salary = 20000;
-            }
-            else if (designation.equalsIgnoreCase("Manager")) {
-                salary = 25000;
-            }
-            else if (designation.equalsIgnoreCase("Tester")) {
-                salary = 15000;
-            }
-            else {
-                System.out.println("Invalid designation.");
-                continue;
-            }
-            System.out.print("Do you want to re-enter designation? (y/n): ");
-            String choice = sc.nextLine().trim();
 
-            if (choice.equalsIgnoreCase("n"))
+                designation = "Programmer";
+                salary = 20000;
                 break;
 
-            if (!choice.equalsIgnoreCase("y"))
-                System.out.println("Invalid choice. Please enter y or n.");
+            } else if (designation.equalsIgnoreCase("Manager")) {
+
+                designation = "Manager";
+                salary = 25000;
+                break;
+
+            } else if (designation.equalsIgnoreCase("Tester")) {
+
+                designation = "Tester";
+                salary = 15000;
+                break;
+
+            } else {
+
+                System.out.println("Invalid designation.");
+            }
         }
 
-       
-        account.clear();
-
-        account.add(name);
-        account.add(String.valueOf(age));
-        account.add(designation);
-        account.add(String.valueOf(salary));
-
-        accountCreated = true;
-
-        System.out.println("\nAccount created successfully!\n");
+        System.out.println("\nAccount created successfully!");
     }
 
-    
+   
     void raiseSalary() {
-
-        if (!accountCreated) {
-            System.out.println("Please create an account first.\n");
-            return;
-        }
 
         while (true) {
 
             System.out.print("Enter salary increase percentage (1-10): ");
 
             if (!sc.hasNextDouble()) {
+
                 System.out.println("Invalid percentage.");
                 sc.nextLine();
                 continue;
@@ -105,35 +97,45 @@ public class Assignment_Employee {
             sc.nextLine();
 
             if (percent < 1 || percent > 10) {
-                System.out.println("Percentage must be between 1 and 10.");
+
+                System.out.println(
+                    "Percentage must be between 1 and 10."
+                );
+
                 continue;
             }
 
             double newSalary = salary + (salary * percent / 100);
 
-     
+            System.out.print(
+                "Do you want to apply this salary increase? (y/n): "
+            );
 
-            
-            System.out.print("Do you want to apply this salary increase? (y/n): ");
-            String choice = sc.nextLine().trim();
+            String choice = sc.nextLine();
 
             if (choice.equalsIgnoreCase("y")) {
 
                 salary = newSalary;
 
-                
-                account.set(3, String.valueOf(salary));
+                System.out.println(
+                    "Salary increased successfully!"
+                );
 
-                System.out.println("Salary increased successfully!\n");
                 break;
-            }
-            else if (choice.equalsIgnoreCase("n")) {
 
-                System.out.println("Salary increase cancelled.\n");
+            } else if (choice.equalsIgnoreCase("n")) {
+
+                System.out.println(
+                    "Salary increase cancelled."
+                );
+
                 break;
-            }
-            else {
-                System.out.println("Invalid choice. Please enter y or n.");
+
+            } else {
+
+                System.out.println(
+                    "Invalid choice. Enter y or n."
+                );
             }
         }
     }
@@ -141,42 +143,37 @@ public class Assignment_Employee {
     
     void displayAccount() {
 
-        if (!accountCreated) {
-            System.out.println("No account found. Please create an account first.\n");
-            return;
-        }
+        System.out.println("\n--- Employee Details ---");
 
-        
-        name = account.get(0);
-        age = Integer.parseInt(account.get(1));
-        designation = account.get(2);
-        salary = Double.parseDouble(account.get(3));
-
-        System.out.println("\n--- Account Details ---");
         System.out.println("Name       : " + name);
         System.out.println("Age        : " + age);
         System.out.println("Designation: " + designation);
         System.out.printf("Salary     : %.2f%n", salary);
-        System.out.println("-----------------------\n");
+
+        System.out.println("------------------------");
     }
 
     
     public static void main(String[] args) {
 
-    	Assignment_Employee atm = new Assignment_Employee();
         Scanner sc = new Scanner(System.in);
+
+        
+        ArrayList<Assignment_Employee> employees = new ArrayList<>();
 
         while (true) {
 
-            System.out.println("===== ATM Menu =====");
-            System.out.println("1. Create Account");
-            System.out.println("2. Display Account");
+            System.out.println("\n===== EMPLOYEE MENU =====");
+            System.out.println("1. Create Employee");
+            System.out.println("2. Display Employees");
             System.out.println("3. Raise Salary");
             System.out.println("4. Exit");
+
             System.out.print("Enter your choice: ");
 
             if (!sc.hasNextInt()) {
-                System.out.println("Invalid input!\n");
+
+                System.out.println("Invalid input!");
                 sc.nextLine();
                 continue;
             }
@@ -186,20 +183,88 @@ public class Assignment_Employee {
 
             switch (choice) {
 
-                case 1 -> atm.createAccount();
+                case 1:
 
-                case 2 -> atm.displayAccount();
+                	Assignment_Employee emp = new Assignment_Employee(sc);
 
-                case 3 -> atm.raiseSalary();
+                    emp.createAccount();
 
-                case 4 -> {
-                    System.out.println("Thank you for using the ATM system!");
+                    employees.add(emp);
+
+                    break;
+
+                case 2:
+
+                    if (employees.isEmpty()) {
+
+                        System.out.println(
+                            "No employees found."
+                        );
+
+                    } else {
+
+                        System.out.println(
+                            "\n===== ALL EMPLOYEES ====="
+                        );
+
+                        for (int i = 0; i < employees.size(); i++) {
+
+                            System.out.println(
+                                "\nEmployee " + (i + 1)
+                            );
+
+                            employees.get(i).displayAccount();
+                        }
+                    }
+
+                    break;
+
+                case 3:
+
+                    if (employees.isEmpty()) {
+
+                        System.out.println(
+                            "No employees found."
+                        );
+
+                    } else {
+
+                        System.out.print(
+                            "Enter employee number: "
+                        );
+
+                        int number = sc.nextInt();
+                        sc.nextLine();
+
+                        if (number >= 1 &&
+                            number <= employees.size()) {
+
+                            employees.get(number - 1).raiseSalary();
+
+                        } else {
+
+                            System.out.println(
+                                "Invalid employee number."
+                            );
+                        }
+                    }
+
+                    break;
+
+                case 4:
+
+                    System.out.println(
+                        "Thank you!"
+                    );
+
                     sc.close();
-                    atm.sc.close();
                     return;
-                }
 
-                default -> System.out.println("Invalid choice!\n");
+                default:
+
+                    System.out.println(
+                        "Invalid choice!"
+                    );
             }
         }
     }
